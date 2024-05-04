@@ -68,6 +68,14 @@ resource "aws_security_group" "ec2_security_group4" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
+ ingress {
+    description      = "sonarqube"
+    from_port        = 9000
+    to_port          = 9000
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
 
   egress {
     from_port        = 0
@@ -103,7 +111,7 @@ data "aws_ami" "ubuntu" {
 # launch the ec2 instance
 resource "aws_instance" "ec2_instance" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.small"
+  instance_type          = "t3.2xlarge"
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.ec2_security_group4.id]
   key_name               = "Udemyclass2"   #change this
